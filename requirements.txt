@@ -1,2 +1,5 @@
 numpy
 pandas
+dotenv
+polars
+qdrant-client
