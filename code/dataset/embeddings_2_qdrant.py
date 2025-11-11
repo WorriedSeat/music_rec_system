@@ -60,8 +60,7 @@ def upload_embeddings(collection_name:str, item_ids: set, embed_path:str, embed_
 
 if __name__ == "__main__":
     #Getting all unique item ids
-    df = pd.read_parquet('sessions_threshold_900.parquet') #DATA_PREP_PATH
+    df = pd.read_parquet(DATA_PREP_PATH)
     item_ids_50m = pd.Series(df['item_ids'].explode()).unique()
     item_ids_50m = set(item_ids_50m)
-                                                      #EMBED_RAW_PATH
-    upload_embeddings(COLLECTION_NAME, item_ids_50m, 'embeddings.parquet', EMBED_DIM)
+    upload_embeddings(COLLECTION_NAME, item_ids_50m, EMBED_RAW_PATH, EMBED_DIM)
