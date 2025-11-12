@@ -3,3 +3,4 @@ pandas
 dotenv
 polars
 qdrant-client
+gymnasium
