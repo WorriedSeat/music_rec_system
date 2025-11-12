@@ -5,6 +5,9 @@ import pyarrow.parquet as pq
 from dotenv import load_dotenv
 from qdrant_client import QdrantClient
 from qdrant_client.http.models import PointStruct, VectorParams, Distance
+import sys
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
+sys.path.append(project_root)
 from config import COLLECTION_NAME, EMBED_RAW_PATH, EMBED_DIM, DATA_PREP_PATH
 
 def upload_embeddings(collection_name:str, item_ids: set, embed_path:str, embed_dim:int, batch_size:int=5000):
@@ -59,8 +62,9 @@ def upload_embeddings(collection_name:str, item_ids: set, embed_path:str, embed_
     print(f"Готово! Загружено {total_loaded:,} эмбеддингов.")
 
 if __name__ == "__main__":
+    ...
     #Getting all unique item ids
-    df = pd.read_parquet(DATA_PREP_PATH)
-    item_ids_50m = pd.Series(df['item_ids'].explode()).unique()
-    item_ids_50m = set(item_ids_50m)
-    upload_embeddings(COLLECTION_NAME, item_ids_50m, EMBED_RAW_PATH, EMBED_DIM)
+    # df = pd.read_parquet(DATA_PREP_PATH)
+    # item_ids_50m = pd.Series(df['item_ids'].explode()).unique()
+    # item_ids_50m = set(item_ids_50m)
+    # upload_embeddings(COLLECTION_NAME, item_ids_50m, EMBED_RAW_PATH, EMBED_DIM)

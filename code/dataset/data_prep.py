@@ -1,6 +1,10 @@
 import numpy as np
 import pandas as pd
 import polars as pl
+import sys
+import os
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
+sys.path.append(project_root)
 from config import TIMESTAMP_THRESHOLD, BATCH_SIZE, DROPOUT_BATCH_RATE, DATA_RAW_PATH, DATA_PREP_PATH, EMBED_RAW_PATH
 
 def split_sessions_for_user(row, threshold):
@@ -90,7 +94,7 @@ def clean_item_ids():
 # ----------------- MAIN LOOP -----------------
 if __name__ == "__main__":
     print("Loading the entire dataset...")
-    df = pd.read_parquet(DATA_RAW_PATH, columns=['uid', 'timestamp', 'item_id', 'played_ratio_pct', 'event_type'])
+    df = pd.read_parquet('sessions_clipped.parquet', columns=['uid', 'timestamp', 'item_id', 'played_ratio_pct', 'event_type'])
 
     all_sessions = []
     for _, row in df.iterrows():
@@ -100,11 +104,11 @@ if __name__ == "__main__":
 
     # Create DF and save
     sessions_df = pd.DataFrame(all_sessions)
-    sessions_df.to_parquet(DATA_PREP_PATH, engine='pyarrow', index=False, compression='snappy')
+    sessions_df.to_parquet('final_data.parquet', engine='pyarrow', index=False, compression='snappy')
 
-    print(f"\nDone! File: {DATA_PREP_PATH}")
+    print(f"\nDone! File: {'final_data.parquet'}")
     print(f"Number of sessions: {len(sessions_df)}")
     print(sessions_df.head())
 
-    print("Cleaning item_ids...")
-    clean_item_ids()
+    # print("Cleaning item_ids...")
+    # clean_item_ids()
