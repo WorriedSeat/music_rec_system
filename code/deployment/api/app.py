@@ -47,7 +47,7 @@ class SongResponse(BaseModel):
     track_id: int
     # title: str
     # artist: str
-    # duration: int
+    track_length_seconds: int
     color_hex: str
 
 
@@ -67,8 +67,8 @@ async def startup_event():
     print("✓ Qdrant connected")
 
     print("Loading songs metadata CSV...")
-    metadata_path = os.path.join(current_dir, "../../../data/songs_metadata.csv")
-    metadata_path = os.path.join('', "C:/Users/Антон/music_rec_system/data/clustered_tracks.csv")
+    # metadata_path = os.path.join(current_dir, "../../../data/songs_metadata.csv")
+    metadata_path = os.path.join(current_dir, '../../../data/clustered_tracks_new.csv')
     songs_metadata_df = pd.read_csv(metadata_path)
     print(f"✓ Loaded {len(songs_metadata_df)} songs metadata")
 
@@ -88,7 +88,7 @@ def get_song_metadata(track_ids: list[int]) -> list[dict]:
                 "track_id": int(row['track_id']),
                 # "title": str(row['title']),
                 # "artist": str(row['artist']),
-                # "duration": int(row['duration']),
+                "track_length_seconds": int(row['track_length_seconds']),
                 "color_hex": str(row['color_hex'])
             })
         else:
@@ -97,7 +97,7 @@ def get_song_metadata(track_ids: list[int]) -> list[dict]:
                 "track_id": track_id,
                 # "title": f"Unknown Song {track_id}",
                 # "artist": "Unknown Artist",
-                # "duration": 180,
+                "track_length_seconds": 180,
                 "color_hex": "#808080"
             })
 
